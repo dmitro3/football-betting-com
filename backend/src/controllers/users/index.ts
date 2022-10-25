@@ -39,15 +39,15 @@ export const signin = async (req: Request, res: Response) => {
     const { password, email, recaptcha } = req.body;
     const rlResIp = await ipLimiter.get(req.ip);
     const rlResUsername = await usernameLimiter.get(email);
-    if (rlResUsername !== null && rlResUsername.consumedPoints > maxFailsByLogin) {
-        const retrySecs = Math.round(rlResUsername.msBeforeNext / 1000);
-        res.set('Retry-After', String(retrySecs));
-        return res.status(429).send('Too Many Requests.');
-    } else if (rlResIp !== null && rlResIp.consumedPoints > maxFailsByLogin) {
-        const retrySecs = Math.round(rlResIp.msBeforeNext / 1000) || 1;
-        res.set('Retry-After', String(retrySecs));
-        return res.status(429).send('Too Many Requests.');
-    } else {
+    // if (rlResUsername !== null && rlResUsername.consumedPoints > maxFailsByLogin) {
+    //     const retrySecs = Math.round(rlResUsername.msBeforeNext / 1000);
+    //     res.set('Retry-After', String(retrySecs));
+    //     return res.status(429).send('Too Many Requests.');
+    // } else if (rlResIp !== null && rlResIp.consumedPoints > maxFailsByLogin) {
+    //     const retrySecs = Math.round(rlResIp.msBeforeNext / 1000) || 1;
+    //     res.set('Retry-After', String(retrySecs));
+    //     return res.status(429).send('Too Many Requests.');
+    // } else {
         if (process.env.MODE === 'pro') {
             const recaptchaData = {
                 remoteip: req.connection.remoteAddress,
@@ -109,7 +109,7 @@ export const signin = async (req: Request, res: Response) => {
                 balance
             });
         }
-    }
+    // }
 };
 
 export const signup = async (req: Request, res: Response) => {
