@@ -468,7 +468,7 @@ const AuthRegister = ({ ...others }) => {
                                 </Button>
                             </AnimateButton>
                         </Box>
-                        <Box sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', mt: 2, width: '100%' }}>
+                        {/* <Box sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', mt: 2, width: '100%' }}>
                             <ReCAPTCHA
                                 size="normal"
                                 sitekey={config.RECAPTCHA_SITE_KEY}
@@ -477,7 +477,7 @@ const AuthRegister = ({ ...others }) => {
                                 onExpired={() => setRecaptcha(null)}
                                 hl={locale}
                             />
-                        </Box>
+                        </Box> */}
                     </form>
                 )}
             </Formik>
