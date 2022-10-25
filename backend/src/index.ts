@@ -101,8 +101,6 @@ app.get('*', apiV2Limiter, (req: express.Request, res: express.Response) => res.
 
 app.use(RetrunValidation);
 
-console.log('process.env.DATABASE: ', process.env.DATABASE);
-
 mongoose
     .connect(process.env.DATABASE as string)
     .then(() => {
