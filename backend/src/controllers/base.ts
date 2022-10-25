@@ -16,6 +16,7 @@ export const maxFailsByLogin = 3;
 let mongoConn: any;
 try {
     mongoConn = mongoose.connection;
+    console.log('connection: ', mongoConn);
 } catch (error) {
     console.log('mongoConn error =>', error);
 }
