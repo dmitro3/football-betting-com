@@ -100,7 +100,7 @@ export const signin = async (req: Request, res: Response) => {
                 accessToken: session.accessToken,
                 refreshToken: session.refreshToken
             };
-            await usernameLimiter.delete(email);
+            // await usernameLimiter.delete(email);
             const balance = await getUserBalance(user._id);
             return res.json({
                 status: true,
