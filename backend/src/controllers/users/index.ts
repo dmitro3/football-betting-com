@@ -37,8 +37,8 @@ const userInfo = (user: any) => {
 
 export const signin = async (req: Request, res: Response) => {
     const { password, email, recaptcha } = req.body;
-    const rlResIp = await ipLimiter.get(req.ip);
-    const rlResUsername = await usernameLimiter.get(email);
+    // const rlResIp = await ipLimiter.get(req.ip);
+    // const rlResUsername = await usernameLimiter.get(email);
     // if (rlResUsername !== null && rlResUsername.consumedPoints > maxFailsByLogin) {
     //     const retrySecs = Math.round(rlResUsername.msBeforeNext / 1000);
     //     res.set('Retry-After', String(retrySecs));
