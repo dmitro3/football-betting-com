@@ -16,7 +16,6 @@ export const maxFailsByLogin = 3;
 let mongoConn: any;
 try {
     mongoConn = mongoose.connection;
-    console.log('connection: ', mongoConn);
 } catch (error) {
     console.log('mongoConn error =>', error);
 }
@@ -36,12 +35,12 @@ const ipOpts = {
 };
 let UsernameLimiter: any;
 let IpLimiter: any;
-try {
-    UsernameLimiter = new RateLimiterMongo(usernameOpts);
-    IpLimiter = new RateLimiterMongo(ipOpts);
-} catch (error) {
-    console.log('Limiter error =>', error);
-}
+// try {
+//     UsernameLimiter = new RateLimiterMongo(usernameOpts);
+//     IpLimiter = new RateLimiterMongo(ipOpts);
+// } catch (error) {
+//     console.log('Limiter error =>', error);
+// }
 export const usernameLimiter = UsernameLimiter;
 export const ipLimiter = IpLimiter;
 
