@@ -59,7 +59,7 @@ const AuthLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
     const [checked, setChecked] = useState(true);
     const [loading, setLoading] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-    const [recaptcha, setRecaptcha] = useState<string | null>(null);
+    const [recaptcha, setRecaptcha] = useState<string | null>('success');
     const [showPassword, setShowPassword] = useState(false);
 
     const loginHandler = async (values: { email: string; password: string }, { setErrors, setStatus, setSubmitting }: any) => {

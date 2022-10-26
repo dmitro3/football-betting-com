@@ -62,7 +62,7 @@ const AuthRegister = ({ ...others }) => {
     const [checked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-    const [recaptcha, setRecaptcha] = useState<string | null>(null);
+    const [recaptcha, setRecaptcha] = useState<string | null>('success');
 
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState<StringColorProps>();
