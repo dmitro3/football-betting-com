@@ -45,7 +45,7 @@ setTimeout(() => {
     } catch (error) {
         console.log('Limiter error =>', error);
     }
-}, 5000);
+}, 10000);
 
 export const usernameLimiter = UsernameLimiter;
 export const ipLimiter = IpLimiter;
