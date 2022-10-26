@@ -13,42 +13,53 @@ const V2 = require('recaptcha-v2');
 const config = require('../../config');
 
 export const maxFailsByLogin = 3;
-let mongoConn: any;
-try {
-    mongoConn = mongoose.connection;
-    console.log('getting mongoose connection');
-} catch (error) {
-    console.log('mongoConn error =>', error);
+var UsernameLimiter: any;
+var IpLimiter: any;
+
+export const initRateLimiter = () => {
+    let mongoConn: any;
+    try {
+        mongoConn = mongoose.connection;
+        console.log('mongoose state: ', mongoConn.readyState);
+    } catch (error) {
+        console.log('mongoConn error =>', error);
+    }
+
+    const usernameOpts = {
+        storeClient: mongoConn,
+        keyPrefix: 'login_fail_username',
+        points: maxFailsByLogin,
+        duration: 60 * 60 * 3,
+        blockDuration: 60 * 15
+    };
+    const ipOpts = {
+        storeClient: mongoConn,
+        keyPrefix: 'login_fail_ip',
+        points: maxFailsByLogin,
+        duration: 60 * 60 * 3,
+        blockDuration: 60 * 15
+    };
+
+    try {
+        UsernameLimiter = new RateLimiterMongo(usernameOpts);
+        IpLimiter = new RateLimiterMongo(ipOpts);
+    } catch (error) {
+        console.log('Limiter error =>', error);
+    }
 }
-const usernameOpts = {
-    storeClient: mongoConn,
-    keyPrefix: 'login_fail_username',
-    points: maxFailsByLogin,
-    duration: 60 * 60 * 3,
-    blockDuration: 60 * 15
-};
-const ipOpts = {
-    storeClient: mongoConn,
-    keyPrefix: 'login_fail_ip',
-    points: maxFailsByLogin,
-    duration: 60 * 60 * 3,
-    blockDuration: 60 * 15
-};
-let UsernameLimiter: any;
-let IpLimiter: any;
-try {
-    UsernameLimiter = new RateLimiterMongo(usernameOpts);
-    IpLimiter = new RateLimiterMongo(ipOpts);
-} catch (error) {
-    console.log('Limiter error =>', error);
+
+export const usernameLimiter = () => {
+    return UsernameLimiter;
 }
-export const usernameLimiter = UsernameLimiter;
-export const ipLimiter = IpLimiter;
+
+export const ipLimiter = () => {
+    return IpLimiter;
+}
 
 export const checkLimiter = async (req: Request, res: Response) => {
     try {
-        await ipLimiter.consume(req.ip);
-        await usernameLimiter.consume(req.body.email);
+        await ipLimiter().consume(req.ip);
+        await usernameLimiter().consume(req.body.email);
     } catch (rlRejected) {
         if (rlRejected instanceof Error) {
         } else {
