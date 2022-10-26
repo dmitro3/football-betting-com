@@ -48,18 +48,18 @@ export const signin = async (req: Request, res: Response) => {
         res.set('Retry-After', String(retrySecs));
         return res.status(429).send('Too Many Requests.');
     } else {
-        if (process.env.MODE === 'pro') {
-            const recaptchaData = {
-                remoteip: req.connection.remoteAddress,
-                response: recaptcha,
-                secret: process.env.RECAPTCHA_SECRET_KEY
-            };
-            const recaptchaResult = await verifyRecaptcha(recaptchaData);
-            if (!recaptchaResult) {
-                checkLimiter(req, res);
-                return res.status(400).json('Please check the robot again!');
-            }
-        }
+        // if (process.env.MODE === 'pro') {
+        //     const recaptchaData = {
+        //         remoteip: req.connection.remoteAddress,
+        //         response: recaptcha,
+        //         secret: process.env.RECAPTCHA_SECRET_KEY
+        //     };
+        //     const recaptchaResult = await verifyRecaptcha(recaptchaData);
+        //     if (!recaptchaResult) {
+        //         checkLimiter(req, res);
+        //         return res.status(400).json('Please check the robot again!');
+        //     }
+        // }
         const user = await Users.findOne({
             $or: [
                 {
