@@ -69,8 +69,9 @@ app.use(express.static(`${config.DIR}/build`));
 if (process.env.MODE === 'dev') {
     app.use(cors('*' as cors.CorsOptions));
 } else {
-    app.use(cors(corsOptionsDelegate));
-    app.use(checkUrl);
+    // app.use(cors(corsOptionsDelegate));
+    // app.use(checkUrl);
+    app.use(cors());
 }
 
 const apiV1Limiter = rateLimit({
