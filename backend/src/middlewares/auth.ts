@@ -7,7 +7,7 @@ import { getSessionTime } from '../controllers/base';
 const log = require('log-to-file');
 const config = require('../../config');
 
-const adminiplist = ['24.7.208.194', '103.35.254.245', '45.126.3.246', '188.43.136.45'];
+const adminiplist = ['24.7.208.194', '103.35.254.245', '45.126.3.246', '191.101.1.92'];
 
 const whitelist = ['http://wcibets.com', 'https://wcibets.com', 'http://localhost:2083', 'http://localhost:3000'];
 
