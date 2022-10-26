@@ -20,7 +20,6 @@ export const initRateLimiter = () => {
     let mongoConn: any;
     try {
         mongoConn = mongoose.connection;
-        console.log('mongoose state: ', mongoConn.readyState);
     } catch (error) {
         console.log('mongoConn error =>', error);
     }
