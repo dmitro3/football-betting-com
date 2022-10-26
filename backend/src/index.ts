@@ -24,6 +24,21 @@ const config = require('../config');
 
 const app = express();
 
+mongoose
+.connect(process.env.DATABASE as string)
+.then(() => {
+    const http = require('http').createServer(app);
+    const io = require('socket.io')(http, { cors: { origin: '*' } });
+    socket(io);
+    app.set('io', io);
+    const port = process.env.MODE === 'dev' ? 2002 : 2000;
+    http.listen(port);
+    console.log('server listening on:', port);
+})
+.catch((error: any) => {
+    console.log('database connection error => ', error);
+});
+
 const accessLogStream = createStream('access.log', {
     interval: '1d',
     path: path.join(`${config.DIR}`, 'log')
@@ -100,18 +115,3 @@ app.use('/api/v3/', apiV3Limiter, routes3);
 app.get('*', apiV2Limiter, (req: express.Request, res: express.Response) => res.sendFile(`${config.DIR}/build/index.html`));
 
 app.use(RetrunValidation);
-
-mongoose
-    .connect(process.env.DATABASE as string)
-    .then(() => {
-        const http = require('http').createServer(app);
-        const io = require('socket.io')(http, { cors: { origin: '*' } });
-        socket(io);
-        app.set('io', io);
-        const port = process.env.MODE === 'dev' ? 2002 : 2000;
-        http.listen(port);
-        console.log('server listening on:', port);
-    })
-    .catch((error: any) => {
-        console.log('database connection error => ', error);
-    });
