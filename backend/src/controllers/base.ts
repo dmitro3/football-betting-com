@@ -13,34 +13,40 @@ const V2 = require('recaptcha-v2');
 const config = require('../../config');
 
 export const maxFailsByLogin = 3;
-let mongoConn: any;
-try {
-    mongoConn = mongoose.connection;
-} catch (error) {
-    console.log('mongoConn error =>', error);
-}
-const usernameOpts = {
-    storeClient: mongoConn,
-    keyPrefix: 'login_fail_username',
-    points: maxFailsByLogin,
-    duration: 60 * 60 * 3,
-    blockDuration: 60 * 15
-};
-const ipOpts = {
-    storeClient: mongoConn,
-    keyPrefix: 'login_fail_ip',
-    points: maxFailsByLogin,
-    duration: 60 * 60 * 3,
-    blockDuration: 60 * 15
-};
+
 let UsernameLimiter: any;
 let IpLimiter: any;
-// try {
-//     UsernameLimiter = new RateLimiterMongo(usernameOpts);
-//     IpLimiter = new RateLimiterMongo(ipOpts);
-// } catch (error) {
-//     console.log('Limiter error =>', error);
-// }
+
+setTimeout(() => {
+    let mongoConn: any;
+    try {
+        mongoConn = mongoose.connection;
+    } catch (error) {
+        console.log('mongoConn error =>', error);
+    }
+    const usernameOpts = {
+        storeClient: mongoConn,
+        keyPrefix: 'login_fail_username',
+        points: maxFailsByLogin,
+        duration: 60 * 60 * 3,
+        blockDuration: 60 * 15
+    };
+    const ipOpts = {
+        storeClient: mongoConn,
+        keyPrefix: 'login_fail_ip',
+        points: maxFailsByLogin,
+        duration: 60 * 60 * 3,
+        blockDuration: 60 * 15
+    };
+    
+    try {
+        UsernameLimiter = new RateLimiterMongo(usernameOpts);
+        IpLimiter = new RateLimiterMongo(ipOpts);
+    } catch (error) {
+        console.log('Limiter error =>', error);
+    }
+}, 5000);
+
 export const usernameLimiter = UsernameLimiter;
 export const ipLimiter = IpLimiter;
 
