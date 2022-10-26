@@ -32,11 +32,12 @@ const forgotLimiter = rateLimit({
     legacyHeaders: false
 });
 
-if (process.env.MODE === 'dev') {
-    router.post('/signin', loginLimiter, signin);
-} else {
-    router.post('/signin', loginLimiter, V.body(Validator.Users.Auth.Signin), signin);
-}
+// if (process.env.MODE === 'dev') {
+//     router.post('/signin', loginLimiter, signin);
+// } else {
+//     router.post('/signin', loginLimiter, V.body(Validator.Users.Auth.Signin), signin);
+// }
+router.post('/signin', loginLimiter, signin);
 
 router.post('/signup', loginLimiter, V.body(Validator.Users.Auth.Signup), signup);
 
